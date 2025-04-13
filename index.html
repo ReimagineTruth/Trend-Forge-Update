@@ -1,1 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trend Forge Update - Stay Ahead of the Curve</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: url('https://source.unsplash.com/random/1920x1080?abstract') fixed center/cover;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        .mega-menu {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-10px);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 50;
+        }
+        .group:hover .mega-menu {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .card-hover:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+        .sticky-sidebar {
+            position: sticky;
+            top: 20px;
+        }
+        .pi-donate:hover, .pi-tip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+        }
+        .ticker {
+            animation: ticker 20s linear infinite;
+            white-space: nowrap;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .lazy-load {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .lazy-load.loaded {
+            opacity: 1;
+        }
+        .mobile-submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .mobile-submenu.open {
+            max-height: 500px;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .nav-link:hover {
+            color: #1d4ed8;
+            background-color: #f3f4f6;
+        }
+        #mobile-menu {
+            background-color: rgba(31, 41, 55, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Breaking News Ticker -->
+    <div class="bg-red-600 text-white py-2 overflow-hidden">
+        <div class="container mx-auto px-4">
+            <span class="inline-block font-semibold mr-4">Breaking News:</span>
+            <div class="ticker inline-block">
+                <span class="mx-4">Global Markets Rally After Policy Shift</span>
+                <span class="mx-4">Pi Network Hits New Milestone</span>
+                <span class="mx-4">SpaceX Announces Mars Mission</span>
+            </div>
+        </div>
+    </div>
 
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold text-blue-600">Trend Forge Update</h1>
+                <div class="hidden md:flex space-x-4 items-center">
+                    <a href="/index.html" class="nav-link text-gray-600 font-medium">Home</a>
+                    <div class="group relative">
+                        <a href="#" class="nav-link text-gray-600 font-medium">Business</a>
+                        <div class="mega-menu absolute left-0 mt-2 w-[400px] bg-white shadow-xl rounded-lg p-6 grid grid-cols-2 gap-4">
+                            <a href="#" class="block py-1 hover:text-blue-700">Tech</a>
+                            <a href="#" class="block py-1 hover:text-blue-700">Media</a>
+                            <a href="#" class="block py-1 hover:text-blue-700">Markets</a>
+                            <a href="#" class="block py-1 hover:text-blue-700">Investing</a>
+                            <a href="#" class="block py-1 hover:text-blue-700">Web3 & Crypto</a>
+                            <a href="#" class="block py-1 hover:text-blue-700">Nightcap</a>
+                        </div>
+                    </div>
+                    <div class="group relative">
+                        <a href="#" class="nav-link text-gray-600 font-medium">Sports</a>
+                        <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                            <a href="#" class="block py-1 hover:text-blue-700">Pro Football</a>
+                            <a href="#" class="block py-1 hover:text-blue-700">Basketball</a>
+                            <a href="#" class="block py-1 hover:text-blue-700">Soccer</a>
+                        </div>
+                    </div>
+                    <div class="group relative">
+                        <a href="#" class="nav-link text-gray-600 font-medium">Celebrity</a>
+                        <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                            <a href="#" class="block py-1 hover:text-blue-700">Movies</a>
+                            <a href="#" class="block py-1 hover:text-blue-700">Television</a>
+                            <a href="#" class="block py-1 hover:text-blue-700">Famous People</a>
+                        </div>
+                    </div>
+                    <a href="#" class="nav-link text-gray-600 font-medium">Web3</a>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center">
+                    <i class="fas fa-wallet mr-2"></i>Connect Pi Wallet
+                </button>
+                <button id="mobile-toggle" class="md:hidden text-gray-600 text-xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="fixed inset-0 hidden" id="mobile-menu">
+        <div class="bg-white h-full w-64 p-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-xl font-bold text-blue-600">Menu</h2>
+                <button id="mobile-close" class="text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="space-y-4">
+                <a href="/index.html" class="block nav-link text-gray-600 font-medium">Home</a>
+                <div>
+                    <button class="submenu-toggle block nav-link text-gray-600 font-medium w-full text-left" data-target="business-submenu">Business</button>
+                    <ul id="business-submenu" class="mobile-submenu pl-4 space-y-2">
+                        <li><a href="#" class="block py-1 hover:text-blue-700">Tech</a></li>
+                        <li><a href="#" class="block py-1 hover:text-blue-700">Media</a></li>
+                        <li><a href="#" class="block py-1 hover:text-blue-700">Markets</a></li>
+                        <li><a href="#" class="block py-1 hover:text-blue-700">Investing</a></li>
+                        <li><a href="#" class="block py-1 hover:text-blue-700">Web3 & Crypto</a></li>
+                        <li><a href="#" class="block py-1 hover:text-blue-700">Nightcap</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <button class="submenu-toggle block nav-link text-gray-600 font-medium w-full text-left" data-target="sports-submenu">Sports</button>
+                    <ul id="sports-submenu" class="mobile-submenu pl-4 space-y-2">
+                        <li><a href="#" class="block py-1 hover:text-blue-700">Pro Football</a></li>
+                        <li><a href="#" class="block py-1 hover:text-blue-700">Basketball</a></li>
+                        <li><a href="#" class="block py-1 hover:text-blue-700">Soccer</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <button class="submenu-toggle block nav-link text-gray-600 font-medium w-full text-left" data-target="celebrity-submenu">Celebrity</button>
+                    <ul id="celebrity-submenu" class="mobile-submenu pl-4 space-y-2">
+                        <li><a href="#" class="block py-1 hover:text-blue-700">Movies</a></li>
+                        <li><a href="#" class="block py-1 hover:text-blue-700">Television</a></li>
+                        <li><a href="#" class="block py-1 hover:text-blue-700">Famous People</a></li>
+                    </ul>
+                </div>
+                <a href="#" class="block nav-link text-gray-600 font-medium">Web3</a>
+                <a href="/upload.html" class="block nav-link text-gray-600 font-medium">Submit News</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Featured Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Trending Now</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="https://source.unsplash.com/random/800/400?crypto" alt="Top Headline" class="w-full h-48 object-cover lazy-load">
+                    <div class="p-4">
+                        <span class="text-blue-600 text-sm font-semibold">Web3 & Crypto</span>
+                        <h3 class="text-xl font-bold mt-2 hover:text-blue-700"><a href="#">Pi Network Reaches 50M Users</a></h3>
+                        <p class="text-gray-600 mt-2">A milestone for the blockchain platform...</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-sm text-gray-500">By Jane Doe • April 12, 2025</span>
+                            <button class="text-blue-600 hover:text-blue-700">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="https://source.unsplash.com/random/800/400?space" alt="Article 1" class="w-full h-48 object-cover lazy-load">
+                    <div class="p-4">
+                        <span class="text-blue-600 text-sm font-semibold">Space</span>
+                        <h3 class="text-xl font-bold mt-2 hover:text-blue-700"><a href="#">NASA Discovers New Exoplanet</a></h3>
+                        <p class="text-gray-600 mt-2">A breakthrough in astrophysics...</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-sm text-gray-500">By Alex Brown • 3h ago</span>
+                            <button class="text-blue-600 hover:text-blue-700">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="https://source.unsplash.com/random/800/400?lifestyle" alt="Article 2" class="w-full h-48 object-cover lazy-load">
+                    <div class="p-4">
+                        <span class="text-blue-600 text-sm font-semibold">Lifestyle</span>
+                        <h3 class="text-xl font-bold mt-2 hover:text-blue-700"><a href="#">Top Wellness Retreats of 2025</a></h3>
+                        <p class="text-gray-600 mt-2">Discover ultimate relaxation...</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-sm text-gray-500">By Emma Lee • 5h ago</span>
+                            <button class="text-blue-600 hover:text-blue-700">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Grid -->
+        <section class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Articles -->
+            <div class="lg:col-span-3">
+                <!-- Top Stories -->
+                <h2 class="text-2xl font-bold mb-4">Top Stories</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                        <h3 class="font-semibold hover:text-blue-700"><a href="#">Startup CEO’s Journey to Success</a></h3>
+                        <p class="text-gray-600 text-sm mt-2">From idea to IPO...</p>
+                        <span class="text-sm text-gray-500">By John Smith • 1d ago</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                        <h3 class="font-semibold hover:text-blue-700"><a href="#">Star’s New Charity Launch</a></h3>
+                        <p class="text-gray-600 text-sm mt-2">A new initiative unveiled...</p>
+                        <span class="text-sm text-gray-500">By Sarah Green • 2d ago</span>
+                    </div>
+                </div>
+
+                <!-- Community Stories -->
+                <section class="mt-12" id="community-stories">
+                    <h2 class="text-2xl font-bold mb-4">Community Stories</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="community-articles"></div>
+                </section>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="lg:col-span-1 sticky-sidebar">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-bold mb-4">Crypto Prices</h3>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between"><span>BTC</span><span>$62,345</span></li>
+                        <li class="flex justify-between"><span>ETH</span><span>$2,987</span></li>
+                        <li class="flex justify-between"><span>Pi</span><span>$0.45</span></li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-bold mb-4">Live Updates</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li><span class="text-blue-600">•</span> Stocks climb after Fed announcement</li>
+                        <li><span class="text-blue-600">•</span> SpaceX delays Starship launch</li>
+                        <li><span class="text-blue-600">•</span> NFT auction sets record</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-bold mb-4">Poll</h3>
+                    <p class="text-sm mb-4">Will Pi Network become mainstream?</p>
+                    <label class="block mb-2"><input type="radio" name="poll" class="mr-2"> Yes</label>
+                    <label class="block mb-4"><input type="radio" name="poll" class="mr-2"> No</label>
+                    <button class="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700">Vote</button>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+                    <form>
+                        <input type="email" placeholder="Your email" class="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        <button class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700">Subscribe</button>
+                    </form>
+                </div>
+                <div class="bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg shadow-md p-6">
+                    <button class="w-full bg-white text-blue-600 font-semibold p-4 rounded-lg pi-donate transition">Donate with Pi</button>
+                </div>
+            </aside>
+        </section>
+
+        <!-- Video Carousel -->
+        <section class="mt-12">
+            <h2 class="text-2xl font-bold mb-4">Featured Videos</h2>
+            <div class="flex overflow-x-auto space-x-6 pb-4">
+                <div class="min-w-[300px] bg-white rounded-lg shadow-md">
+                    <img src="https://source.unsplash.com/random/300x200?space" alt="Video 1" class="w-full h-40 object-cover rounded-t-lg lazy-load">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold hover:text-blue-700">SpaceX Launch Highlights</h3>
+                        <p class="text-gray-600 text-sm">Watch the latest rocket launch.</p>
+                    </div>
+                </div>
+                <div class="min-w-[300px] bg-white rounded-lg shadow-md">
+                    <img src="https://source.unsplash.com/random/300x200?crypto" alt="Video 2" class="w-full h-40 object-cover rounded-t-lg lazy-load">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold hover:text-blue-700">Crypto Market Analysis</h3>
+                        <p class="text-gray-600 text-sm">Experts break down trends.</p>
+                    </div>
+                </div>
+                <div class="min-w-[300px] bg-white rounded-lg shadow-md">
+                    <img src="https://source.unsplash.com/random/300x200?lifestyle" alt="Video 3" class="w-full h-40 object-cover rounded-t-lg lazy-load">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold hover:text-blue-700">Luxury Travel Guide</h3>
+                        <p class="text-gray-600 text-sm">Explore top destinations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white mt-12">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Trend Forge Update</h3>
+                    <p class="text-gray-400">Stay ahead of the curve with breaking news and trending stories.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+                <p>© 2025 Trend Forge Update. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileClose = document.getElementById('mobile-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileToggle.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+        });
+        mobileClose.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+
+        // Mobile Submenu Toggle
+        document.querySelectorAll('.submenu-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-target');
+                const submenu = document.getElementById(targetId);
+                submenu.classList.toggle('open');
+            });
+        });
+
+        // Community Articles
+        const communityArticles = document.getElementById('community-articles');
+        function loadArticles() {
+            const articles = JSON.parse(localStorage.getItem('articles') || '[]');
+            communityArticles.innerHTML = '';
+            articles.forEach(article => {
+                const articleEl = document.createElement('div');
+                articleEl.className = 'bg-white rounded-lg shadow-md overflow-hidden card-hover';
+                articleEl.innerHTML = `
+                    <img src="${article.image || 'https://source.unsplash.com/random/800/400?news'}" alt="${article.title}" class="w-full h-48 object-cover lazy-load">
+                    <div class="p-4">
+                        <span class="text-blue-600 text-sm font-semibold">${article.category}</span>
+                        <h3 class="text-xl font-bold mt-2 hover:text-blue-700"><a href="#">${article.title}</a></h3>
+                        <p class="text-gray-600 mt-2">${article.content.substring(0, 100)}...</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-sm text-gray-500">By ${article.author} • Just now</span>
+                            <button class="text-blue-600 hover:text-blue-700">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+                        ${article.monetize ? `
+                            <div class="mt-4 flex items-center">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg pi-tip transition">Tip with Pi</button>
+                                <span class="ml-4 text-sm text-blue-600">Ad Revenue: 50%</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                communityArticles.appendChild(articleEl);
+                gsap.from(articleEl, { opacity: 0, y: 50, duration: 1 });
+            });
+        }
+
+        loadArticles();
+
+        // GSAP Animations
+        document.querySelectorAll('.card-hover').forEach((el, index) => {
+            gsap.from(el, {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                delay: index * 0.2,
+                scrollTrigger: { trigger: el, start: 'top 80%' }
+            });
+        });
+
+        // Mega-Menu Animations
+        document.querySelectorAll('.mega-menu').forEach(menu => {
+            gsap.set(menu, { opacity: 0, y: -10 });
+            menu.parentElement.addEventListener('mouseenter', () => {
+                gsap.to(menu, { opacity: 1, y: 0, duration: 0.3 });
+            });
+            menu.parentElement.addEventListener('mouseleave', () => {
+                gsap.to(menu, { opacity: 0, y: -10, duration: 0.3 });
+            });
+        });
+
+        // Menu Hover Animation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                gsap.to(link, { scale: 1.1, duration: 0.3, ease: 'power2.out' });
+            });
+            link.addEventListener('mouseleave', () => {
+                gsap.to(link, { scale: 1, duration: 0.3, ease: 'power2.out' });
+            });
+        });
+
+        // Lazy Load Images
+        document.querySelectorAll('.lazy-load').forEach(img => img.classList.add('loaded'));
+
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(err => console.log('Service Worker Error:', err));
+        }
+    </script>
+</body>
+</html>
