@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
@@ -63,23 +64,37 @@
         }
         .nav-link {
             position: relative;
-            transition: color 0.3s ease, background-color 0.3s ease;
-            padding: 4px 8px;
-            border-radius: 6px;
+            transition: color 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #1d4ed8;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
         }
         .nav-link:hover {
             color: #1d4ed8;
-            background-color: #f3f4f6;
         }
-        #mobile-menu {
-            background-color: rgba(31, 41, 55, 0.5);
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        .font-roboto {
+            font-family: 'Roboto', sans-serif;
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 font-roboto text-gray-900">
     <!-- Breaking News Ticker -->
     <div class="bg-red-600 text-white py-2 overflow-hidden">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-6">
             <span class="inline-block font-semibold mr-4">Breaking News:</span>
             <div class="ticker inline-block">
                 <span class="mx-4">Global Markets Rally After Policy Shift</span>
@@ -90,96 +105,298 @@
     </div>
 
     <!-- Header -->
-    <header class="bg-white shadow-sm">
-        <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <h1 class="text-2xl font-bold text-blue-600">Trend Forge Update</h1>
-                <div class="hidden md:flex space-x-4 items-center">
-                    <a href="/index.html" class="nav-link text-gray-600 font-medium">Home</a>
-                    <div class="group relative">
-                        <a href="#" class="nav-link text-gray-600 font-medium">Business</a>
-                        <div class="mega-menu absolute left-0 mt-2 w-[400px] bg-white shadow-xl rounded-lg p-6 grid grid-cols-2 gap-4">
-                            <a href="#" class="block py-1 hover:text-blue-700">Tech</a>
-                            <a href="#" class="block py-1 hover:text-blue-700">Media</a>
-                            <a href="#" class="block py-1 hover:text-blue-700">Markets</a>
-                            <a href="#" class="block py-1 hover:text-blue-700">Investing</a>
-                            <a href="#" class="block py-1 hover:text-blue-700">Web3 & Crypto</a>
-                            <a href="#" class="block py-1 hover:text-blue-700">Nightcap</a>
-                        </div>
+    <header class="bg-white shadow-xl sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <!-- Top Bar -->
+            <div class="flex items-center justify-between mb-4">
+                <!-- Logo -->
+                <div class="text-3xl font-bold font-playfair">
+                    <a href="/index.html" class="text-gray-900 hover:text-blue-700 transition-colors">Trend Forge Update</a>
+                </div>
+                <!-- Search and Mobile Toggle -->
+                <div class="flex items-center space-x-4">
+                    <div class="relative hidden lg:block">
+                        <input type="text" placeholder="Search Trend Forge..." class="pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-700">
+                        <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
                     </div>
-                    <div class="group relative">
-                        <a href="#" class="nav-link text-gray-600 font-medium">Sports</a>
-                        <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
-                            <a href="#" class="block py-1 hover:text-blue-700">Pro Football</a>
-                            <a href="#" class="block py-1 hover:text-blue-700">Basketball</a>
-                            <a href="#" class="block py-1 hover:text-blue-700">Soccer</a>
-                        </div>
-                    </div>
-                    <div class="group relative">
-                        <a href="#" class="nav-link text-gray-600 font-medium">Celebrity</a>
-                        <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
-                            <a href="#" class="block py-1 hover:text-blue-700">Movies</a>
-                            <a href="#" class="block py-1 hover:text-blue-700">Television</a>
-                            <a href="#" class="block py-1 hover:text-blue-700">Famous People</a>
-                        </div>
-                    </div>
-                    <a href="#" class="nav-link text-gray-600 font-medium">Web3</a>
+                    <button id="mobile-toggle" aria-label="Toggle menu" class="lg:hidden text-gray-900 hover:text-blue-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
                 </div>
             </div>
-            <div class="flex items-center space-x-4">
-                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center">
-                    <i class="fas fa-wallet mr-2"></i>Connect Pi Wallet
-                </button>
-                <button id="mobile-toggle" class="md:hidden text-gray-600 text-xl">
-                    <i class="fas fa-bars"></i>
-                </button>
+            <!-- Desktop Menu -->
+            <ul class="hidden lg:flex flex-wrap gap-x-6 gap-y-2 border-t pt-4">
+                <li><a href="#" class="nav-link font-semibold">US</a></li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">World</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-[600px] bg-white shadow-xl rounded-lg p-6 grid grid-cols-3 gap-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">Africa</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Americas</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Asia</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Australia</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">China</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Europe</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">India</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Middle East</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">United Kingdom</a>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">Politics</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">SCOTUS</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Congress</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Facts First</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">2025 Elections</a>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">Business</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-[400px] bg-white shadow-xl rounded-lg p-6 grid grid-cols-2 gap-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">Tech</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Media</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Markets</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Investing</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Web3 & Crypto</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Nightcap</a>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">Health</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">Fitness</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Food</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Sleep</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Mindfulness</a>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">Entertainment</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">Movies</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Television</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Celebrity</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Famous People</a>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">Tech</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">Innovate</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Web3 & Crypto</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Founders</a>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">Style</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">Fashion</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Beauty</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Luxury</a>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">Travel</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">Destinations</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Food & Drink</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Lifestyle</a>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">Sports</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">Pro Football</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Basketball</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Soccer</a>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">Science</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">Space</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Life</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Unearthed</a>
+                    </div>
+                </li>
+                <li><a href="#" class="nav-link font-semibold">Weather</a></li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">Watch</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">Live TV</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">TFU Headlines</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">TFU Shorts</a>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">Listen</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">TFU 5 Things</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Chasing Life</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">The Assignment</a>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">TFU Underscored</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">Electronics</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Fashion</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Beauty</a>
+                    </div>
+                </li>
+                <li class="group relative">
+                    <a href="#" class="nav-link font-semibold">About TFU</a>
+                    <div class="mega-menu absolute left-0 mt-2 w-48 bg-white shadow-xl rounded-lg p-4">
+                        <a href="#" class="block py-1 hover:text-blue-700">Photos</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">Investigations</a>
+                        <a href="#" class="block py-1 hover:text-blue-700">TFU Profiles</a>
+                    </div>
+                </li>
+                <li><a href="/upload.html" class="nav-link font-semibold">Submit News</a></li>
+            </ul>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden bg-white shadow-lg py-4">
+                <div class="container mx-auto px-6">
+                    <div class="mb-4 relative">
+                        <input type="text" placeholder="Search Trend Forge..." class="w-full pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-700">
+                        <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="block py-2 nav-link font-semibold">US</a></li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="world-submenu">World <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="world-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Africa</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Americas</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Asia</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Australia</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">China</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Europe</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">India</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Middle East</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">United Kingdom</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="politics-submenu">Politics <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="politics-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">SCOTUS</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Congress</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Facts First</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">2025 Elections</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="business-submenu">Business <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="business-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Tech</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Media</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Markets</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Investing</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Web3 & Crypto</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Nightcap</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="health-submenu">Health <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="health-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Fitness</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Food</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Sleep</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Mindfulness</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="entertainment-submenu">Entertainment <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="entertainment-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Movies</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Television</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Celebrity</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Famous People</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="tech-submenu">Tech <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="tech-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Innovate</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Web3 & Crypto</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Founders</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="style-submenu">Style <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 pattes="block py-1 hover:text-blue-700">Fashion</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Beauty</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Luxury</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="travel-submenu">Travel <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="travel-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Destinations</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Food & Drink</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Lifestyle</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="sports-submenu">Sports <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="sports-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Pro Football</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Basketball</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Soccer</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="science-submenu">Science <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="science-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Space</a></li>
+                                <li><a href="#" class="block py-1 hover seguito="block py-1 hover:text-blue-700">Unearthed</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#" class="block py-2 nav-link font-semibold">Weather</a></li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="watch-submenu">Watch <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="watch-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Live TV</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">TFU Headlines</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">TFU Shorts</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="listen-submenu">Listen <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="listen-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">TFU 5 Things</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Chasing Life</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">The Assignment</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="underscored-submenu">TFU Underscored <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="underscored-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Electronics</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Fashion</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Beauty</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button class="submenu-toggle flex justify-between w-full py-2 nav-link font-semibold" data-target="about-submenu">About TFU <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                            <ul id="about-submenu" class="mobile-submenu pl-4 space-y-2">
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Photos</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">Investigations</a></li>
+                                <li><a href="#" class="block py-1 hover:text-blue-700">TFU Profiles</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/upload.html" class="block py-2 nav-link font-semibold">Submit News</a></li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </header>
-
-    <!-- Mobile Menu -->
-    <div class="fixed inset-0 hidden" id="mobile-menu">
-        <div class="bg-white h-full w-64 p-4">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-xl font-bold text-blue-600">Menu</h2>
-                <button id="mobile-close" class="text-gray-600">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <nav class="space-y-4">
-                <a href="/index.html" class="block nav-link text-gray-600 font-medium">Home</a>
-                <div>
-                    <button class="submenu-toggle block nav-link text-gray-600 font-medium w-full text-left" data-target="business-submenu">Business</button>
-                    <ul id="business-submenu" class="mobile-submenu pl-4 space-y-2">
-                        <li><a href="#" class="block py-1 hover:text-blue-700">Tech</a></li>
-                        <li><a href="#" class="block py-1 hover:text-blue-700">Media</a></li>
-                        <li><a href="#" class="block py-1 hover:text-blue-700">Markets</a></li>
-                        <li><a href="#" class="block py-1 hover:text-blue-700">Investing</a></li>
-                        <li><a href="#" class="block py-1 hover:text-blue-700">Web3 & Crypto</a></li>
-                        <li><a href="#" class="block py-1 hover:text-blue-700">Nightcap</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <button class="submenu-toggle block nav-link text-gray-600 font-medium w-full text-left" data-target="sports-submenu">Sports</button>
-                    <ul id="sports-submenu" class="mobile-submenu pl-4 space-y-2">
-                        <li><a href="#" class="block py-1 hover:text-blue-700">Pro Football</a></li>
-                        <li><a href="#" class="block py-1 hover:text-blue-700">Basketball</a></li>
-                        <li><a href="#" class="block py-1 hover:text-blue-700">Soccer</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <button class="submenu-toggle block nav-link text-gray-600 font-medium w-full text-left" data-target="celebrity-submenu">Celebrity</button>
-                    <ul id="celebrity-submenu" class="mobile-submenu pl-4 space-y-2">
-                        <li><a href="#" class="block py-1 hover:text-blue-700">Movies</a></li>
-                        <li><a href="#" class="block py-1 hover:text-blue-700">Television</a></li>
-                        <li><a href="#" class="block py-1 hover:text-blue-700">Famous People</a></li>
-                    </ul>
-                </div>
-                <a href="#" class="block nav-link text-gray-600 font-medium">Web3</a>
-                <a href="/upload.html" class="block nav-link text-gray-600 font-medium">Submit News</a>
-            </nav>
-        </div>
-    </div>
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
@@ -326,33 +543,54 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-black text-white mt-12">
-        <div class="container mx-auto px-4 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer class="bg-black text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-12">
                 <div>
-                    <h3 class="text-xl font-bold mb-4">Trend Forge Update</h3>
-                    <p class="text-gray-400">Stay ahead of the curve with breaking news and trending stories.</p>
+                    <h3 class="text-2xl font-playfair font-bold mb-4">Trend Forge Update</h3>
+                    <p class="text-gray-300">Your source for Web3, space, and lifestyle news.</p>
                 </div>
                 <div>
-                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <h3 class="text-xl font-semibold mb-4">Categories</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Web3 & Crypto</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Space</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Lifestyle</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h3 class="text-xl font-bold mb-4">Connect With Us</h3>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-linkedin"></i></a>
+                    <h3 class="text-xl font-semibold mb-4">Explore</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-400">Founders</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Famous People</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Sports</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Newsletter</h3>
+                    <form>
+                        <input type="email" placeholder="Your email" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg mb-4">
+                        <button class="w-full bg-blue-700 text-white p-3 rounded-lg hover:bg-blue-800">Subscribe</button>
+                    </form>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Connect</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-400">About</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Contact</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Privacy Policy</a></li>
+                    </ul>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="hover:text-blue-400">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.6c-.9.4-1.8.7-2.8.8 1-.6 1.8-1.6 2.2-2.7-.9.5-2 .9-3.1 1.1-.9-1-2.2-1.6-3.6-1.6-2.7 0-4.9 2.2-4.9 4.9 0 .4 0 .8.1 1.2-4.1-.2-7.7-2.2-10.1-5.2-.4.7-.7 1.6-.7 2.5 0 1.7.9 3.2 2.2 4.1-.8 0-1.6-.2-2.2-.6v .1c0 2.4 1.7 4.4 3.9 4.8-.4.1-.8.2-1.3.2-.3 0-.6 0-.9-.1.6 2 2.4 3.4 4.5 3.5-1.7 1.3-3.8 2.1-6 2.1-.4 0-.8 0-1.2-.1 2.2 1.4 4.8 2.2 7.5 2.2 9.1 0 14-7.5 14-14v-.6c1-.7 1.8-1.6 2.5-2.6z"/></svg>
+                        </a>
+                        <a href="#" class="hover:text-blue-400">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.7 0H1.3C.6 0 0 .6 0 1.3v21.4c0 .7.6 1.3 1.3 1.3h11.5v-9.3h-3.1v-3.6h3.1V8.4c0-3.1 1.9-4.8 4.7-4.8 1.3 0 2.5.1 2.8.1v3.2h-1.9c-1.5 0-1.8.7-1.8 1.8v2.3h3.6l-.5 3.6h-3.1v9.3h6.1c.7 0 1.3-.6 1.3-1.3V1.3c0-.7-.6-1.3-1.3-1.3z"/></svg>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+            <div class="mt-12 text-center text-gray-300">
                 <p>© 2025 Trend Forge Update. All rights reserved.</p>
             </div>
         </div>
@@ -362,13 +600,9 @@
     <script>
         // Mobile Menu Toggle
         const mobileToggle = document.getElementById('mobile-toggle');
-        const mobileClose = document.getElementById('mobile-close');
         const mobileMenu = document.getElementById('mobile-menu');
         mobileToggle.addEventListener('click', () => {
-            mobileMenu.classList.remove('hidden');
-        });
-        mobileClose.addEventListener('click', () => {
-            mobileMenu.classList.add('hidden');
+            mobileMenu.classList.toggle('hidden');
         });
 
         // Mobile Submenu Toggle
@@ -440,10 +674,12 @@
         // Menu Hover Animation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('mouseenter', () => {
-                gsap.to(link, { scale: 1.1, duration: 0.3, ease: 'power2.out' });
+                gsap.to(link, { scale: 1.05, duration: 0.3, ease: 'power2.out' });
+                gsap.to(link, { backgroundColor: '#e5e7eb', duration: 0.3, ease: 'power2.out' });
             });
             link.addEventListener('mouseleave', () => {
                 gsap.to(link, { scale: 1, duration: 0.3, ease: 'power2.out' });
+                gsap.to(link, { backgroundColor: 'transparent', duration: 0.3, ease: 'power2.out' });
             });
         });
 
