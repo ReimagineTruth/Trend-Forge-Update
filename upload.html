@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit News - Trend Forge Update</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: url('https://source.unsplash.com/random/1920x1080?abstract') fixed center/cover;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        .pi-donate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+        }
+        #preview-modal {
+            transition: opacity 0.3s ease;
+        }
+        .mobile-submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .mobile-submenu.open {
+            max-height: 500px;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .nav-link:hover {
+            color: #1d4ed8;
+            background-color: #f3f4f6;
+        }
+        #mobile-menu {
+            background-color: rgba(31, 41, 55, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold text-blue-600">Trend Forge Update</h1>
+                <div class="hidden md:flex space-x-4 items-center">
+                    <a href="/index.html" class="nav-link text-gray-600 font-medium">Home</a>
+                    <a href="/upload.html" class="nav-link text-gray-600 font-medium">Submit News</a>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center">
+                    <i class="fas fa-wallet mr-2"></i>Connect Pi Wallet
+                </button>
+                <button id="mobile-toggle" class="md:hidden text-gray-600 text-xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="fixed inset-0 hidden" id="mobile-menu">
+        <div class="bg-white h-full w-64 p-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-xl font-bold text-blue-600">Menu</h2>
+                <button id="mobile-close" class="text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="space-y-4">
+                <a href="/index.html" class="block nav-link text-gray-600 font-medium">Home</a>
+                <a href="/upload.html" class="block nav-link text-gray-600 font-medium">Submit News</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <section class="max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold mb-6 text-center">Submit Your News</h1>
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <form id="article-form">
+                    <label for="article-title" class="block text-sm font-semibold mb-2">Title</label>
+                    <input type="text" id="article-title" placeholder="Enter article title" class="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+                    <label for="article-category" class="block text-sm font-semibold mb-2">Category</label>
+                    <select id="article-category" class="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+                        <option value="Web3 & Crypto">Web3 & Crypto</option>
+                        <option value="Space">Space</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Founders">Founders</option>
+                        <option value="Famous People">Famous People</option>
+                        <option value="Sports">Sports</option>
+                    </select>
+                    <label for="article-image" class="block text-sm font-semibold mb-2">Image (Optional)</label>
+                    <input type="file" id="article-image" accept="image/*" class="w-full p-3 border rounded-lg mb-4">
+                    <label for="article-content" class="block text-sm font-semibold mb-2">Content</label>
+                    <textarea id="article-content" placeholder="Write your article..." class="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600" rows="8" required></textarea>
+                    <label for="article-author" class="block text-sm font-semibold mb-2">Author</label>
+                    <input type="text" id="article-author" placeholder="Your name" class="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+                    <label class="flex items-center mb-6">
+                        <input type="checkbox" id="monetize" class="mr-2">
+                        <span class="text-sm">Monetize (Earn 50% ad revenue + Pi tips)</span>
+                    </label>
+                    <button type="button" id="preview-btn" class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 mb-2">Preview</button>
+                    <button type="submit" class="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700">Submit</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Preview Modal -->
+        <div id="preview-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+            <div class="bg-white rounded-lg p-8 max-w-lg w-full">
+                <h3 class="text-2xl font-bold mb-4">Article Preview</h3>
+                <img id="preview-image" class="w-full h-48 object-cover rounded-lg mb-4 hidden">
+                <h4 id="preview-title" class="text-xl font-semibold mb-2"></h4>
+                <p id="preview-category" class="text-sm text-gray-600 mb-2"></p>
+                <p id="preview-content" class="text-sm text-gray-600 mb-4"></p>
+                <p id="preview-author" class="text-sm text-gray-500 mb-4"></p>
+                <p id="preview-monetize" class="text-sm text-blue-600 mb-4"></p>
+                <div class="flex space-x-4">
+                    <button id="close-preview" class="flex-1 bg-gray-600 text-white p-3 rounded-lg hover:bg-gray-700">Close</button>
+                    <button id="submit-preview" class="flex-1 bg-green-600 text-white p-3 rounded-lg hover:bg-green-700">Submit</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white mt-12">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Trend Forge Update</h3>
+                    <p class="text-gray-400">Stay ahead of the curve with breaking news and trending stories.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+                <p>© 2025 Trend Forge Update. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileClose = document.getElementById('mobile-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileToggle.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+        });
+        mobileClose.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+
+        // Menu Hover Animation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                gsap.to(link, { scale: 1.1, duration: 0.3, ease: 'power2.out' });
+            });
+            link.addEventListener('mouseleave', () => {
+                gsap.to(link, { scale: 1, duration: 0.3, ease: 'power2.out' });
+            });
+        });
+
+        // Article Submission
+        const articleForm = document.getElementById('article-form');
+        const previewModal = document.getElementById('preview-modal');
+        const previewBtn = document.getElementById('preview-btn');
+        const closePreview = document.getElementById('close-preview');
+        const submitPreview = document.getElementById('submit-preview');
+
+        previewBtn.addEventListener('click', () => {
+            const title = document.getElementById('article-title').value;
+            const category = document.getElementById('article-category').value;
+            const image = document.getElementById('article-image').files[0];
+            const content = document.getElementById('article-content').value;
+            const author = document.getElementById('article-author').value;
+            const monetize = document.getElementById('monetize').checked;
+
+            if (title && category && content && author) {
+                document.getElementById('preview-title').textContent = title;
+                document.getElementById('preview-category').textContent = `Category: ${category}`;
+                document.getElementById('preview-content').textContent = content;
+                document.getElementById('preview-author').textContent = `By ${author}`;
+                document.getElementById('preview-monetize').textContent = monetize ? 'Monetized: 50% ad revenue + Pi tips' : 'Not monetized';
+                const previewImage = document.getElementById('preview-image');
+                if (image) {
+                    previewImage.src = URL.createObjectURL(image);
+                    previewImage.classList.remove('hidden');
+                } else {
+                    previewImage.classList.add('hidden');
+                }
+                previewModal.classList.remove('hidden');
+            } else {
+                alert('Please fill all required fields.');
+            }
+        });
+
+        closePreview.addEventListener('click', () => {
+            previewModal.classList.add('hidden');
+        });
+
+        articleForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            previewModal.classList.add('hidden');
+            submitArticle();
+        });
+
+        submitPreview.addEventListener('click', () => {
+            previewModal.classList.add('hidden');
+            submitArticle();
+        });
+
+        function submitArticle() {
+            const title = document.getElementById('article-title').value;
+            const category = document.getElementById('article-category').value;
+            const image = document.getElementById('article-image').files[0];
+            const content = document.getElementById('article-content').value;
+            const author = document.getElementById('article-author').value;
+            const monetize = document.getElementById('monetize').checked;
+
+            if (title && category && content && author) {
+                const articles = JSON.parse(localStorage.getItem('articles') || '[]');
+                articles.push({
+                    title,
+                    category,
+                    image: image ? URL.createObjectURL(image) : '',
+                    content,
+                    author,
+                    monetize
+                });
+                localStorage.setItem('articles', JSON.stringify(articles));
+                articleForm.reset();
+                alert('Article submitted! View it on the homepage.');
+                window.location.href = '/index.html';
+            }
+        }
+    </script>
+</body>
+</html>
